@@ -28,20 +28,21 @@ public class AdGenerator implements Serializable {
             eventsIdx = 0;
         }
         sb.setLength(0);
-        sb.append("{\"user_id\":\"");
-        sb.append(pageID);
-        sb.append("\",\"page_id\":\"");
-        sb.append(userID);
-        sb.append("\",\"ad_id\":\"");
-        sb.append(ads.get(adsIdx++));
-        sb.append("\",\"ad_type\":\"");
-        sb.append("banner78"); // value is immediately discarded. The original generator would put a string with 38/5 = 7.6 chars. We put 8.
-        sb.append("\",\"event_type\":\"");
-        sb.append(eventTypes[eventsIdx++]);
-        sb.append("\",\"event_time\":\"");
-        sb.append(System.currentTimeMillis());
-        sb.append("\",\"ip_address\":\"1.2.3.4\"}");
+        sb.append("{\"user_id\":\""); //12
+        sb.append(pageID); //16
+        sb.append("\",\"page_id\":\""); //13
+        sb.append(userID); //16
+        sb.append("\",\"ad_id\":\""); //11
+        sb.append(ads.get(adsIdx++)); //16
+        sb.append("\",\"ad_type\":\""); //13
+        sb.append("banner78"); //8 // value is immediately discarded. The original generator would put a string with 38/5 = 7.6 chars. We put 8.
+        sb.append("\",\"event_type\":\""); //16
+        sb.append(eventTypes[eventsIdx++]); //5
+        sb.append("\",\"event_time\":\""); //16
+        sb.append(System.currentTimeMillis()); //13
+        sb.append("\",\"ip_address\":\"1.2.3.4\"}"); //25
 
+        // tot = 180
         return sb.toString();
     }
 

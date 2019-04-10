@@ -51,7 +51,7 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <program-class>flink.benchmark.AdvertisingTopologyNative</program-class>
+                            <program-class>flink.benchmark.AdvertisingTopologyLocalGenerator</program-class>
                         </manifestEntries>
                     </archive>
                 </configuration>

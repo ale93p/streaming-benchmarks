@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class AdvertisingTopologyLocalGenerator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AdvertisingTopologyNative.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AdvertisingTopologyLocalGenerator.class);
 
 
     public static void main(final String[] args) throws Exception {
@@ -71,7 +71,7 @@ public class AdvertisingTopologyLocalGenerator {
         AdGenerator generator = new AdGenerator();
 
         //write ads into REDIS
-        RedisHelper redis = new RedisHelper(parameterTool.getRequired("jedis_server"),0, true);
+        RedisHelper redis = new RedisHelper(flinkBenchmarkParams.getRequired("jedis_server"),0, true);
         redis.prepareRedis(generator.getCampaigns());
 
         DataStream<String> messageStream = env
@@ -80,23 +80,23 @@ public class AdvertisingTopologyLocalGenerator {
         messageStream
                 .rebalance()
                 // Parse the String as JSON
-                .flatMap(new AdvertisingTopologyNative.DeserializeBolt())
+                .flatMap(new DeserializeBolt())
 
                 //Filter the records if event type is "view"
-                .filter(new AdvertisingTopologyNative.EventFilterBolt())
+                .filter(new EventFilterBolt())
 
                 // project the event
                 .<Tuple2<String, String>>project(2, 5)
 
                 // perform join with redis data
-                .flatMap(new AdvertisingTopologyNative.RedisJoinBolt())
+                .flatMap(new RedisJoinBolt())
 
                 // process campaign
                 .keyBy(0)
-                .flatMap(new AdvertisingTopologyNative.CampaignProcessor());
+                .flatMap(new CampaignProcessor());
 
 
-        env.execute();
+        env.execute("YahooBench");
     }
 
     public static class LocalGeneratorConnector extends RichParallelSourceFunction<String>{

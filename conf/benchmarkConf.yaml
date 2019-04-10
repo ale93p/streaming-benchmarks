@@ -13,12 +13,13 @@ redis.host: "localhost"
 kafka.topic: "ad-events"
 kafka.partitions: 1
 
-process.hosts: 1
-process.cores: 4
+process.hosts: 3
+process.cores: 8
 
 #STORM Specific
 storm.workers: 1
 storm.ackers: 1
+storm.max.spout.pending: 1000
 
 #Spark Specific
 spark.batchtime: 2000

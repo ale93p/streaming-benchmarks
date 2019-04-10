@@ -233,6 +233,7 @@ public class AdvertisingTopologyLocalGenerator {
         int workers = ((Number)commonConfig.get("storm.workers")).intValue();
         int ackers = ((Number)commonConfig.get("storm.ackers")).intValue();
         int cores = ((Number)commonConfig.get("process.cores")).intValue();
+        int maxSpoutPending = ((Number)commonConfig.get("storm.max.spout.pending")).intValue();
         int parallel = Math.max(1, cores/7);
 
         ZkHosts hosts = new ZkHosts(zkServerHosts);
@@ -264,6 +265,7 @@ public class AdvertisingTopologyLocalGenerator {
         if (args != null && args.length > 0) {
             conf.setNumWorkers(workers);
             conf.setNumAckers(ackers);
+            conf.setMaxSpoutPending(maxSpoutPending);
             StormSubmitter.submitTopologyWithProgressBar(args[0], conf, builder.createTopology());
         }
         else {
